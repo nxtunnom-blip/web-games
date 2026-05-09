@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird - PS RAFi 007</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 PS RAFi 007</h1>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="tictactoe.html">Tic Tac Toe</a></li>
+                <li><a href="snake.html">Snake</a></li>
+                <li><a href="memory.html">Memory Game</a></li>
+                <li><a href="flappy.html" class="active">Flappy Bird</a></li>
+                <li><a href="pong.html">Pong</a></li>
+            </ul>
+        </nav>
+
+        <div class="game-container">
+            <div class="game-header">
+                <h2>🐦 Flappy Bird</h2>
+                <p>Score: <strong id="flappyScore">0</strong> | High Score: <strong id="flappyHighScore">0</strong></p>
+            </div>
+
+            <div class="game-controls">
+                <button id="flappyStartBtn" onclick="startFlappyGame()">Start Game</button>
+            </div>
+
+            <canvas id="flappyCanvas" width="400" height="500"></canvas>
+
+            <p style="text-align: center; color: #666; margin-top: 20px;">
+                <strong>Controls:</strong> Click or Press Space to Flap
+            </p>
+
+            <a href="../index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <script src="flappy.js"></script>
+</body>
+</html>
