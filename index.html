@@ -1,83 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS RAFi 007 - Play Multiple Games Online</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>For You 💗</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background: black;
+      color: #ff69b4;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .box {
+      background: rgba(255, 105, 180, 0.1);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #ff69b4;
+      text-align: left;
+      width: 300px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #ff69b4;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #typingLine::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎮 PS RAFi 007</h1>
-            <p>Play Multiple Games Online for Free</p>
-        </header>
 
-        <nav class="navbar">
-            <ul>
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="games/tictactoe.html">Tic Tac Toe</a></li>
-                <li><a href="games/snake.html">Snake</a></li>
-                <li><a href="games/memory.html">Memory Game</a></li>
-                <li><a href="games/flappy.html">Flappy Bird</a></li>
-                <li><a href="games/pong.html">Pong</a></li>
-            </ul>
-        </nav>
+<canvas id="bg"></canvas>
 
-        <main>
-            <section class="hero">
-                <h2>Welcome to the Ultimate Gaming Experience!</h2>
-                <p>Choose a game and start playing now. No downloads required!</p>
-            </section>
+<div class="container">
+  <div class="box" id="formBox">
+    <div id="typingLine"></div>
+    <input type="text" placeholder="Your Name"><br>
+    <input type="text" placeholder="Crush Name"><br>
+    <input type="text" placeholder="Secret Info 😏"><br>
+    <button onclick="startPrank()">Submit</button>
+  </div>
 
-            <section class="games-grid">
-                <div class="game-card">
-                    <div class="game-icon">⭕</div>
-                    <h3>Tic Tac Toe</h3>
-                    <p>Classic strategy game. Play against the computer or a friend.</p>
-                    <a href="games/tictactoe.html" class="btn">Play Now</a>
-                </div>
+  <div class="box" id="resultBox" style="display:none;">
+    <div id="finalTyping"></div>
+  </div>
+</div>
 
-                <div class="game-card">
-                    <div class="game-icon">🐍</div>
-                    <h3>Snake Game</h3>
-                    <p>Navigate the snake and eat food without hitting walls.</p>
-                    <a href="games/snake.html" class="btn">Play Now</a>
-                </div>
+<script>
+  const lines = [
+    "Connecting to love server...",
+    "Scanning emotions...",
+    "Reading secret data...",
+    "Analyzing crush feelings...",
+    "Finalizing result..."
+  ];
 
-                <div class="game-card">
-                    <div class="game-icon">🧠</div>
-                    <h3>Memory Game</h3>
-                    <p>Match pairs of cards. Test your memory skills!</p>
-                    <a href="games/memory.html" class="btn">Play Now</a>
-                </div>
+  function typeLines(element, lines, speed, callback) {
+    let lineIndex = 0;
+    function nextLine() {
+      if (lineIndex >= lines.length) {
+        if (callback) callback();
+        return;
+      }
+      let text = lines[lineIndex];
+      let i = 0;
+      element.innerHTML = "";
 
-                <div class="game-card">
-                    <div class="game-icon">🐦</div>
-                    <h3>Flappy Bird</h3>
-                    <p>Tap to fly through the pipes. Avoid obstacles!</p>
-                    <a href="games/flappy.html" class="btn">Play Now</a>
-                </div>
+      function typing() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        } else {
+          lineIndex++;
+          setTimeout(nextLine, 500);
+        }
+      }
+      typing();
+    }
+    nextLine();
+  }
 
-                <div class="game-card">
-                    <div class="game-icon">🏓</div>
-                    <h3>Pong Game</h3>
-                    <p>Classic paddle game. Bounce the ball and score points!</p>
-                    <a href="games/pong.html" class="btn">Play Now</a>
-                </div>
+  typeLines(document.getElementById("typingLine"), ["Answer honestly... 💗"], 50);
 
-                <div class="game-card">
-                    <div class="game-icon">🎲</div>
-                    <h3>More Games Coming</h3>
-                    <p>Stay tuned! New games are being added regularly.</p>
-                    <a href="#" class="btn disabled">Coming Soon</a>
-                </div>
-            </section>
-        </main>
+  function startPrank() {
+    document.getElementById("formBox").style.display = "none";
+    document.getElementById("resultBox").style.display = "block";
 
-        <footer>
-            <p>&copy; 2026 Web Games Hub. All rights reserved. | Enjoy playing!</p>
-        </footer>
-    </div>
+    typeLines(document.getElementById("finalTyping"), lines, 40, () => {
+      setTimeout(() => {
+        document.getElementById("finalTyping").innerHTML = "💗 RAFI 💗<br>Got you 😆";
+      }, 800);
+    });
+  }
+
+  // particles
+  const canvas = document.getElementById("bg");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      d: Math.random() * 1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ff69b4";
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    particles.forEach(p => {
+      p.y += p.d;
+      if (p.y > canvas.height) {
+        p.y = 0;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+  }
+
+  setInterval(draw, 30);
+</script>
+
 </body>
 </html>
