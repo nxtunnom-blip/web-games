@@ -2,173 +2,486 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>For You 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💕 Love Calculator 💕</title>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: monospace;
-      background: black;
-      color: #ff69b4;
-      overflow: hidden;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      flex-direction: column;
+      padding: 20px;
+      animation: bgShift 8s infinite;
     }
 
-    .box {
-      background: rgba(255, 105, 180, 0.1);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 25px #ff69b4;
-      text-align: left;
-      width: 300px;
+    @keyframes bgShift {
+      0%, 100% { background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4); }
+      50% { background: linear-gradient(135deg, #ff1493, #ffc0cb, #ff69b4); }
     }
 
-    input {
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(255, 20, 147, 0.3);
+      max-width: 500px;
       width: 100%;
-      padding: 8px;
-      margin: 8px 0;
-      border: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff1493;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 4px rgba(255, 20, 147, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      color: #ff1493;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ffc0cb;
       border-radius: 8px;
+      font-size: 1em;
+      font-family: 'Arial', sans-serif;
+      transition: all 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #ff1493;
+      box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+      background: #fff5f9;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
     }
 
     button {
-      width: 100%;
-      padding: 10px;
+      flex: 1;
+      padding: 15px;
       border: none;
-      border-radius: 10px;
-      background: #ff69b4;
-      color: black;
+      border-radius: 8px;
+      font-size: 1.1em;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s;
     }
 
-    #typingLine::after {
-      content: '|';
-      animation: blink 1s infinite;
+    .btn-calculate {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      color: white;
     }
 
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
+    .btn-calculate:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 20, 147, 0.4);
+    }
+
+    .btn-reset {
+      background: #ffc0cb;
+      color: #ff1493;
+    }
+
+    .btn-reset:hover {
+      background: #ffb6d9;
+    }
+
+    .result-container {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+      padding: 30px;
+      background: linear-gradient(135deg, #fff5f9, #ffe4f0);
+      border-radius: 15px;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-container.show {
+      display: block;
+    }
+
+    .percentage {
+      font-size: 3.5em;
+      color: #ff1493;
+      font-weight: bold;
+      margin: 20px 0;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .result-text {
+      font-size: 1.5em;
+      color: #ff1493;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .anime-girl {
+      font-size: 5em;
+      margin: 20px 0;
+      animation: float 3s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .couple-names {
+      font-size: 1.3em;
+      color: #ff1493;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .heart-animation {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2em;
+      animation: heartFloat 3s ease-in forwards;
+    }
+
+    @keyframes heartFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-300px) translateX(100px) rotate(360deg);
+      }
+    }
+
+    .form-section {
+      border-left: 4px solid #ff1493;
+      padding-left: 15px;
+      margin: 25px 0;
+    }
+
+    .form-section-title {
+      color: #ff1493;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+    }
+
+    .score-bar {
+      width: 100%;
+      height: 20px;
+      background: #ffddeb;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff69b4, #ff1493);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      .percentage {
+        font-size: 2.5em;
+      }
+
+      .anime-girl {
+        font-size: 3em;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>💕 Love Calculator 💕</h1>
 
-<canvas id="bg"></canvas>
+    <form id="loveForm">
+      <!-- Your Information -->
+      <div class="form-section">
+        <div class="form-section-title">যে যার তথ্য</div>
+        <div class="form-group">
+          <label for="yourName">আপনার নাম *</label>
+          <input type="text" id="yourName" required placeholder="আপনার নাম লিখুন">
+        </div>
 
-<div class="container">
-  <div class="box" id="formBox">
-    <div id="typingLine"></div>
-    <input type="text" placeholder="Your Name"><br>
-    <input type="text" placeholder="Crush Name"><br>
-    <input type="text" placeholder="Secret Info 😏"><br>
-    <button onclick="startPrank()">Submit</button>
+        <div class="form-group">
+          <label for="yourAge">আপনার বয়স *</label>
+          <input type="number" id="yourAge" required min="1" max="100" placeholder="বয়স">
+        </div>
+
+        <div class="form-group">
+          <label for="yourAddress">আপনার বাড়ি/এলাকা *</label>
+          <input type="text" id="yourAddress" required placeholder="যেমন: ঢাকা, চট্টগ্রাম">
+        </div>
+      </div>
+
+      <!-- Crush Information -->
+      <div class="form-section">
+        <div class="form-section-title">আপনার ক্রাশের তথ্য</div>
+        <div class="form-group">
+          <label for="crushName">ক্রাশের নাম *</label>
+          <input type="text" id="crushName" required placeholder="ক্রাশের নাম লিখুন">
+        </div>
+
+        <div class="form-group">
+          <label for="crushAge">ক্রাশের বয়স *</label>
+          <input type="number" id="crushAge" required min="1" max="100" placeholder="বয়স">
+        </div>
+
+        <div class="form-group">
+          <label for="crushAddress">ক্রাশের বাড়ি/এলাকা *</label>
+          <input type="text" id="crushAddress" required placeholder="যেমন: সিলেট, খুলনা">
+        </div>
+      </div>
+
+      <!-- Shared Activities -->
+      <div class="form-section">
+        <div class="form-section-title">একসাথে কি করেন/করতে পছন্দ করেন?</div>
+        <div class="form-group">
+          <label for="activities">আপনারা কি কি করেন একসাথে? *</label>
+          <textarea id="activities" required placeholder="যেমন: মুভি দেখা, ঘুরতে যাওয়া, গল্প করা, খেলা ইত্যাদি"></textarea>
+        </div>
+      </div>
+
+      <!-- Feelings -->
+      <div class="form-section">
+        <div class="form-section-title">অনুভূতি ও লক্ষ্য</div>
+        <div class="form-group">
+          <label for="talkAbout">আপনি তার কথা শুনতে কতটা পছন্দ করেন? *</label>
+          <select id="talkAbout" required>
+            <option value="">--বেছে নিন--</option>
+            <option value="50">একদম পছন্দ করি না</option>
+            <option value="60">কম পছন্দ করি</option>
+            <option value="70">মোটামুটি পছন্দ করি</option>
+            <option value="80">খুব পছন্দ করি</option>
+            <option value="90">অনেক বেশি পছন্দ করি</option>
+            <option value="100">প্রতিটি শব্দ সোনার মতো মূল্যবান!</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="wantMarriage">আপনি তার সাথে বিয়ে করতে চান? *</label>
+          <select id="wantMarriage" required>
+            <option value="">--বেছে নিন--</option>
+            <option value="no">না</option>
+            <option value="maybe">হতে পারে</option>
+            <option value="yes">হ্যাঁ, অবশ্যই!</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="crushWantMarriage">আপনার ক্রাশ কি আপনার সাথে বিয়ে করতে আগ্রহী? *</label>
+          <select id="crushWantMarriage" required>
+            <option value="">--বেছে নিন--</option>
+            <option value="no">না</option>
+            <option value="maybe">হতে পারে</option>
+            <option value="yes">হ্যাঁ</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn-calculate">💖 ফলাফল দেখুন 💖</button>
+        <button type="reset" class="btn-reset">রিসেট করুন</button>
+      </div>
+    </form>
+
+    <!-- Result Container -->
+    <div class="result-container" id="resultContainer">
+      <div class="anime-girl" id="animeGirl">💕</div>
+      <div class="percentage" id="percentage">0%</div>
+      <div class="score-bar">
+        <div class="score-fill" id="scoreFill"></div>
+      </div>
+      <div class="result-text" id="resultText"></div>
+      <div class="couple-names" id="coupleNames"></div>
+      <div class="result-text" id="finalMessage"></div>
+    </div>
   </div>
 
-  <div class="box" id="resultBox" style="display:none;">
-    <div id="finalTyping"></div>
-  </div>
-</div>
+  <script>
+    const form = document.getElementById('loveForm');
+    const resultContainer = document.getElementById('resultContainer');
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      calculateLove();
+      createHeartAnimations();
+    });
 
-<script>
-  const lines = [
-    "Connecting to love server...",
-    "Scanning emotions...",
-    "Reading secret data...",
-    "Analyzing crush feelings...",
-    "Finalizing result..."
-  ];
+    function calculateLove() {
+      const yourName = document.getElementById('yourName').value;
+      const crushName = document.getElementById('crushName').value;
+      const yourAge = parseInt(document.getElementById('yourAge').value);
+      const crushAge = parseInt(document.getElementById('crushAge').value);
+      const yourAddress = document.getElementById('yourAddress').value;
+      const crushAddress = document.getElementById('crushAddress').value;
+      const activities = document.getElementById('activities').value;
+      const talkAbout = parseInt(document.getElementById('talkAbout').value);
+      const wantMarriage = document.getElementById('wantMarriage').value;
+      const crushWantMarriage = document.getElementById('crushWantMarriage').value;
 
-  function typeLines(element, lines, speed, callback) {
-    let lineIndex = 0;
-    function nextLine() {
-      if (lineIndex >= lines.length) {
-        if (callback) callback();
-        return;
+      let score = 50; // Base score
+
+      // Age difference factor (closer is better)
+      const ageDiff = Math.abs(yourAge - crushAge);
+      if (ageDiff === 0) score += 10;
+      else if (ageDiff <= 2) score += 8;
+      else if (ageDiff <= 5) score += 5;
+      else if (ageDiff > 10) score -= 5;
+
+      // Address compatibility (same area is better)
+      if (yourAddress.toLowerCase() === crushAddress.toLowerCase()) {
+        score += 15;
+      } else {
+        score += 5;
       }
-      let text = lines[lineIndex];
-      let i = 0;
-      element.innerHTML = "";
 
-      function typing() {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(typing, speed);
-        } else {
-          lineIndex++;
-          setTimeout(nextLine, 500);
-        }
-      }
-      typing();
+      // Activities (indicates compatibility)
+      if (activities.length > 30) score += 10;
+      else if (activities.length > 15) score += 5;
+
+      // Talk preferences
+      score += (talkAbout - 50) / 5;
+
+      // Marriage intentions
+      if (wantMarriage === 'yes') score += 15;
+      else if (wantMarriage === 'maybe') score += 7;
+
+      if (crushWantMarriage === 'yes') score += 15;
+      else if (crushWantMarriage === 'maybe') score += 7;
+
+      // Random bonus
+      score += Math.random() * 15;
+
+      // Cap at 100
+      score = Math.min(100, Math.max(20, score));
+
+      displayResult(yourName, crushName, Math.round(score));
     }
-    nextLine();
-  }
 
-  typeLines(document.getElementById("typingLine"), ["Answer honestly... 💗"], 50);
+    function displayResult(yourName, crushName, percentage) {
+      const percentageEl = document.getElementById('percentage');
+      const scoreFillEl = document.getElementById('scoreFill');
+      const resultTextEl = document.getElementById('resultText');
+      const coupleNamesEl = document.getElementById('coupleNames');
+      const finalMessageEl = document.getElementById('finalMessage');
+      const animeGirlEl = document.getElementById('animeGirl');
 
-  function startPrank() {
-    document.getElementById("formBox").style.display = "none";
-    document.getElementById("resultBox").style.display = "block";
+      // Animate percentage
+      let current = 0;
+      const increment = percentage / 50;
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= percentage) {
+          current = percentage;
+          clearInterval(interval);
+        }
+        percentageEl.textContent = Math.round(current) + '%';
+        scoreFillEl.style.width = Math.round(current) + '%';
+      }, 20);
 
-    typeLines(document.getElementById("finalTyping"), lines, 40, () => {
-      setTimeout(() => {
-        document.getElementById("finalTyping").innerHTML = "💗 RAFI 💗<br>Got you 😆";
-      }, 800);
-    });
-  }
+      // Determine message and emoji
+      let message = '';
+      let emoji = '😊';
 
-  // particles
-  const canvas = document.getElementById("bg");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  let particles = [];
-  for (let i = 0; i < 100; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 2 + 1,
-      d: Math.random() * 1
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ff69b4";
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    particles.forEach(p => {
-      p.y += p.d;
-      if (p.y > canvas.height) {
-        p.y = 0;
-        p.x = Math.random() * canvas.width;
+      if (percentage >= 90) {
+        message = '🎉 আপনারা অবশ্যই বিয়ে করবেন! 🎉';
+        emoji = '😍';
+        animeGirlEl.textContent = '🌸💕🌸';
+      } else if (percentage >= 75) {
+        message = '💕 আপনারা খুব ভালো জোড়! 💕';
+        emoji = '🥰';
+        animeGirlEl.textContent = '💖✨💖';
+      } else if (percentage >= 60) {
+        message = '💭 সম্ভাবনা আছে, চেষ্টা করে দেখুন! 💭';
+        emoji = '😊';
+        animeGirlEl.textContent = '💕😊💕';
+      } else if (percentage >= 40) {
+        message = '🤔 সম্পর্ক গড়ে তুলতে সময় লাগবে...';
+        emoji = '😐';
+        animeGirlEl.textContent = '💭💭💭';
+      } else {
+        message = '😅 সম্পর্কটি একটু কঠিন হতে পারে...';
+        emoji = '😢';
+        animeGirlEl.textContent = '💔💔💔';
       }
-    });
-  }
 
-  setInterval(draw, 30);
-</script>
+      resultTextEl.textContent = message;
+      coupleNamesEl.innerHTML = `<span style="color: #ff1493;">❤️ ${yourName} 💕 ${crushName} ❤️</span>`;
+      
+      if (percentage >= 75) {
+        finalMessageEl.textContent = '🎊 আপনাদের ভালোবাসা গল্প লেখা হবে! 🎊';
+      } else if (percentage >= 55) {
+        finalMessageEl.textContent = '💭 আপনাদের সম্পর্ক সুন্দর হতে পারে!';
+      } else {
+        finalMessageEl.textContent = '😊 সময় সবকিছু পরিবর্তন করে দেয়!';
+      }
 
+      resultContainer.classList.add('show');
+    }
+
+    function createHeartAnimations() {
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart-animation';
+          heart.textContent = '💕';
+          heart.style.left = Math.random() * window.innerWidth + 'px';
+          heart.style.top = window.innerHeight + 'px';
+          document.body.appendChild(heart);
+          
+          setTimeout(() => heart.remove(), 3000);
+        }, i * 100);
+      }
+    }
+  </script>
 </body>
 </html>
