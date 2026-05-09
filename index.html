@@ -13,7 +13,14 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.12) 12px,
+        transparent 12px,
+        transparent 24px
+      ),
+      linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -219,6 +226,35 @@
       transition: width 0.5s ease;
     }
 
+    .vertical-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .vertical-particles .line {
+      position: absolute;
+      top: -120%;
+      width: 3px;
+      height: 180%;
+      background: rgba(255, 255, 255, 0.18);
+      filter: blur(2px);
+      animation: fallVertical 7s linear infinite;
+    }
+
+    .vertical-particles .line:nth-child(odd) {
+      background: rgba(255, 20, 147, 0.14);
+      width: 2px;
+    }
+
+    @keyframes fallVertical {
+      0% { transform: translateY(-100%); opacity: 0.2; }
+      50% { opacity: 0.4; }
+      100% { transform: translateY(120%); opacity: 0.1; }
+    }
+
     @media (max-width: 600px) {
       .container {
         padding: 20px;
@@ -239,6 +275,7 @@
   </style>
 </head>
 <body>
+  <div class="vertical-particles" id="verticalParticles"></div>
   <div class="container">
     <h1>💕 Love Calculator 💕</h1>
 
@@ -482,6 +519,21 @@
         }, i * 100);
       }
     }
+    function createVerticalParticles() {
+      const container = document.getElementById('verticalParticles');
+      for (let i = 0; i < 18; i++) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.style.left = Math.random() * 100 + 'vw';
+        line.style.animationDuration = 4 + Math.random() * 5 + 's';
+        line.style.opacity = 0.15 + Math.random() * 0.2;
+        line.style.width = 1 + Math.random() * 2 + 'px';
+        line.style.animationDelay = Math.random() * -9 + 's';
+        container.appendChild(line);
+      }
+    }
+
+    createVerticalParticles();
   </script>
 </body>
 </html>
